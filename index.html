@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ホップ感謝祭 2026.06.12 京都</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#F2A0AC;
+  --pink-deep:#E8798C;
+  --pink-pale:#FDF0F2;
+  --cream:#FFF9F4;
+  --blue:#9FD9DC;
+  --blue-deep:#5FB7BC;
+  --ink:#5A474C;
+  --orange:#F59E2D;
+  --orange-deep:#E8821A;
+  --orange-pale:#FFF4E3;
+  --gold:#D8B45A;
+  --gold-light:#EFD9A0;
+  --night:#1B1714;
+  --shadow:0 10px 30px rgba(232,121,140,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:"M PLUS Rounded 1c","Zen Maru Gothic",sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  overflow:hidden;
+}
+#stage{position:fixed;inset:0;}
+
+/* ===== slide base ===== */
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:5vh 6vw 9vh;
+  text-align:center;
+  background:var(--cream);
+  overflow:hidden;
+}
+.slide.active{display:flex;animation:pop .45s cubic-bezier(.2,.9,.3,1.2);}
+@keyframes pop{from{opacity:0;transform:scale(.97) translateY(12px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion: reduce){
+  .slide.active{animation:none;}
+  .hopdot,.confetti i{animation:none !important;}
+}
+
+/* decorative blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.5;pointer-events:none;}
+.b1{width:46vmin;height:46vmin;background:var(--pink-pale);top:-14vmin;left:-12vmin;}
+.b2{width:34vmin;height:34vmin;background:#EAF7F7;bottom:-10vmin;right:-8vmin;}
+.b3{width:16vmin;height:16vmin;background:var(--pink-pale);bottom:14vmin;left:8vmin;opacity:.7;}
+
+.eyebrow{
+  display:inline-block;
+  font-family:"Zen Maru Gothic";
+  font-weight:700;font-size:clamp(13px,1.6vmin,18px);
+  letter-spacing:.35em;text-indent:.35em;
+  color:var(--pink-deep);
+  background:#fff;
+  border:2px dashed var(--pink);
+  border-radius:999px;
+  padding:.5em 1.4em;
+  margin-bottom:2.6vmin;
+  position:relative;z-index:1;
+}
+h1,h2{font-family:"Zen Maru Gothic";position:relative;z-index:1;}
+h1{font-size:clamp(34px,7.5vmin,84px);font-weight:900;line-height:1.25;}
+h2{font-size:clamp(26px,5.4vmin,60px);font-weight:900;line-height:1.3;}
+.sub{font-size:clamp(15px,2.3vmin,24px);font-weight:700;margin-top:2.2vmin;position:relative;z-index:1;}
+.wavy{position:relative;display:inline-block;}
+.wavy::after{
+  content:"";position:absolute;left:0;right:0;bottom:-.18em;height:.16em;
+  background:repeating-linear-gradient(135deg,var(--pink) 0 6px,transparent 6px 12px);
+  border-radius:99px;
+}
+
+/* ===== title slide ===== */
+.brandbar{position:absolute;top:0;left:0;right:0;height:1.6vmin;background:repeating-linear-gradient(90deg,var(--pink) 0 24px,var(--blue) 24px 48px);}
+.logo{font-family:"Zen Maru Gothic";font-weight:900;position:relative;z-index:1;}
+.logo .svc{display:block;font-size:clamp(12px,1.8vmin,18px);letter-spacing:.4em;color:var(--pink-deep);margin-bottom:.6vmin;}
+.logo .nm{font-size:clamp(30px,5vmin,52px);color:var(--blue-deep);}
+.logo .nm b{color:var(--pink-deep);}
+.hopdots{display:flex;gap:1.4vmin;justify-content:center;margin:2.4vmin 0 1vmin;position:relative;z-index:1;}
+.hopdot{width:2.6vmin;height:2.6vmin;min-width:12px;min-height:12px;border-radius:50%;background:var(--pink);animation:hop 1.5s ease-in-out infinite;}
+.hopdot:nth-child(2){background:var(--blue);animation-delay:.15s;}
+.hopdot:nth-child(3){background:var(--pink-deep);animation-delay:.3s;}
+@keyframes hop{0%,100%{transform:translateY(0);}30%{transform:translateY(-1.6vmin);}50%{transform:translateY(0);}}
+.datechip{
+  display:inline-block;margin-top:3vmin;position:relative;z-index:1;
+  background:var(--pink-deep);color:#fff;font-weight:800;
+  font-size:clamp(16px,2.6vmin,28px);
+  padding:.45em 1.6em;border-radius:999px;box-shadow:var(--shadow);
+}
+.footerband{position:absolute;bottom:0;left:0;right:0;height:7vmin;background:var(--pink);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;letter-spacing:.12em;font-size:clamp(13px,2vmin,20px);}
+
+/* ===== card layouts ===== */
+.cardgrid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,42vw),1fr));
+  gap:2vmin;width:min(1200px,92vw);margin-top:3vmin;position:relative;z-index:1;
+}
+.card{
+  background:#fff;border-radius:24px;padding:2.6vmin 2.8vmin;
+  box-shadow:var(--shadow);text-align:left;display:flex;gap:2vmin;align-items:flex-start;
+  border:2px solid var(--pink-pale);
+}
+.card .ic{
+  flex:0 0 auto;width:5.4vmin;height:5.4vmin;min-width:40px;min-height:40px;
+  border-radius:50%;background:var(--pink-pale);
+  display:flex;align-items:center;justify-content:center;font-size:2.8vmin;
+}
+.card h3{font-family:"Zen Maru Gothic";font-size:clamp(15px,2.3vmin,23px);font-weight:800;margin-bottom:.5vmin;color:var(--pink-deep);}
+.card p{font-size:clamp(13px,1.9vmin,18px);font-weight:500;line-height:1.65;}
+
+/* timeline */
+.timeline{width:min(880px,90vw);margin-top:3.4vmin;position:relative;z-index:1;text-align:left;}
+.trow{display:flex;align-items:center;gap:2.6vmin;padding:1.6vmin 0;position:relative;}
+.trow::before{content:"";position:absolute;left:calc(9ch + 1.2vmin);top:0;bottom:0;width:3px;background:repeating-linear-gradient(var(--pink) 0 8px,transparent 8px 16px);}
+.trow:first-child::before{top:50%;}
+.trow:last-child::before{bottom:50%;}
+.ttime{flex:0 0 9ch;font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(20px,3.4vmin,36px);color:var(--pink-deep);text-align:right;}
+.tdot{flex:0 0 auto;width:2.4vmin;height:2.4vmin;min-width:14px;min-height:14px;border-radius:50%;background:#fff;border:.6vmin solid var(--pink);position:relative;z-index:1;}
+.tlabel{font-weight:800;font-size:clamp(18px,3vmin,32px);background:#fff;border-radius:999px;padding:.35em 1em;box-shadow:var(--shadow);}
+
+/* profile */
+.profile{display:flex;align-items:center;gap:5vmin;width:min(1050px,92vw);margin-top:2vmin;position:relative;z-index:1;text-align:left;flex-wrap:wrap;justify-content:center;}
+.avatar{
+  width:30vmin;height:30vmin;min-width:180px;min-height:180px;border-radius:50%;
+  background:linear-gradient(145deg,#fff,var(--pink-pale));
+  border:1vmin solid #fff;box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;font-size:11vmin;flex:0 0 auto;
+}
+.pbody h2{text-align:left;color:var(--blue-deep);}
+.pbody .kana{font-size:clamp(16px,2.6vmin,26px);font-weight:800;margin-top:1vmin;}
+.pbody .meta{font-size:clamp(14px,2.2vmin,22px);font-weight:600;margin-top:.6vmin;color:#7d6a6f;}
+.ribbon{
+  margin-top:3.4vmin;background:#fff;border:3px solid var(--pink);border-radius:24px;
+  padding:1.8vmin 3vmin;font-weight:800;font-size:clamp(14px,2.4vmin,24px);
+  box-shadow:var(--shadow);position:relative;z-index:1;line-height:1.7;
+}
+
+/* speaker (乾杯/閉会) */
+.speaker-card{
+  background:#fff;border-radius:32px;box-shadow:var(--shadow);
+  padding:5vmin 7vmin;position:relative;z-index:1;border:2px solid var(--pink-pale);
+}
+.speaker-card .role{font-weight:700;font-size:clamp(14px,2.2vmin,22px);color:#8a777c;margin-top:2vmin;line-height:1.7;}
+.speaker-card .nm{font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(34px,6.5vmin,72px);color:var(--pink-deep);margin-top:1.6vmin;}
+.kanpai{font-size:9vmin;margin-bottom:1vmin;}
+
+/* interlude */
+.interlude{background:linear-gradient(160deg,#FDEFF1,#EAF7F7);}
+.interlude h1{color:var(--pink-deep);}
+.confetti{position:absolute;inset:0;pointer-events:none;}
+.confetti i{
+  position:absolute;width:1.4vmin;height:1.4vmin;min-width:8px;min-height:8px;border-radius:3px;
+  background:var(--pink);opacity:.7;animation:fall 7s linear infinite;
+}
+@keyframes fall{from{transform:translateY(-12vh) rotate(0deg);}to{transform:translateY(112vh) rotate(540deg);}}
+
+/* ===== quiz theme ===== */
+.quiz{background:#FFF7F0;}
+.quiz .qband{position:absolute;top:0;left:0;right:0;height:1.6vmin;background:repeating-linear-gradient(90deg,var(--orange) 0 24px,#FFD79A 24px 48px);}
+.qnum{
+  display:inline-flex;align-items:center;gap:1vmin;
+  font-family:"Zen Maru Gothic";font-weight:900;color:#fff;
+  background:var(--orange);border-radius:999px;
+  font-size:clamp(15px,2.4vmin,24px);padding:.45em 1.4em;margin-bottom:2.4vmin;
+  position:relative;z-index:1;box-shadow:0 8px 20px rgba(232,130,26,.25);
+}
+.quiz h2{color:var(--orange-deep);}
+.choices{
+  display:grid;grid-template-columns:1fr 1fr;gap:2.2vmin;
+  width:min(1100px,92vw);margin-top:4vmin;position:relative;z-index:1;
+}
+.choice{
+  background:#fff;border:.55vmin solid var(--orange);border-radius:24px;
+  padding:3vmin 3vmin;display:flex;align-items:center;gap:2.4vmin;text-align:left;
+  font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(20px,3.6vmin,40px);
+  box-shadow:0 8px 0 rgba(232,130,26,.15);
+}
+.choice .mk{
+  flex:0 0 auto;width:6vmin;height:6vmin;min-width:44px;min-height:44px;border-radius:50%;
+  border:.5vmin solid var(--orange);color:var(--orange-deep);
+  display:flex;align-items:center;justify-content:center;font-size:clamp(18px,3vmin,32px);
+}
+.anslabel{font-family:"Zen Maru Gothic";font-weight:900;color:var(--orange);font-size:clamp(40px,9vmin,110px);position:relative;z-index:1;}
+.ansbox{
+  display:inline-flex;align-items:center;gap:3vmin;margin-top:3vmin;
+  background:#fff;border:.7vmin solid var(--orange);border-radius:28px;
+  padding:3vmin 5vmin;font-family:"Zen Maru Gothic";font-weight:900;
+  font-size:clamp(30px,6.5vmin,72px);box-shadow:0 10px 0 rgba(232,130,26,.15);
+  position:relative;z-index:1;
+}
+.ansbox .mk{width:8vmin;height:8vmin;min-width:54px;min-height:54px;border-radius:50%;border:.6vmin solid var(--orange);color:var(--orange-deep);display:flex;align-items:center;justify-content:center;font-size:clamp(24px,4vmin,44px);flex:0 0 auto;}
+
+/* quiz timer */
+.timer{
+  margin-top:4vmin;position:relative;z-index:2;display:flex;align-items:center;gap:2vmin;
+  background:#fff;border-radius:999px;padding:1vmin 2.4vmin 1vmin 1vmin;
+  box-shadow:var(--shadow);cursor:pointer;border:2px solid #FFE2BC;user-select:none;
+}
+.timer svg{width:6.6vmin;height:6.6vmin;min-width:48px;min-height:48px;transform:rotate(-90deg);}
+.timer .tt{font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(16px,2.6vmin,26px);color:var(--orange-deep);}
+.timer .hint{font-size:clamp(11px,1.6vmin,15px);font-weight:700;color:#b8927a;}
+.timer.done .tt{color:var(--pink-deep);}
+
+/* fact slides */
+.factwrap{width:min(1150px,94vw);position:relative;z-index:1;margin-top:2.5vmin;}
+.factcard{
+  background:#fff;border-radius:28px;box-shadow:var(--shadow);
+  padding:3.6vmin 4.5vmin;text-align:left;border:2px solid #FFE9D2;
+}
+.factcard dl{display:grid;grid-template-columns:auto 1fr;gap:.9vmin 2.4vmin;font-size:clamp(14px,2.3vmin,23px);}
+.factcard dt{font-weight:900;color:var(--orange-deep);white-space:nowrap;}
+.factcard dd{font-weight:600;line-height:1.6;}
+.bignum{font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(46px,11vmin,130px);color:var(--orange);line-height:1.05;position:relative;z-index:1;}
+.bignum small{font-size:.4em;color:var(--ink);}
+.pillrow{display:flex;flex-wrap:wrap;gap:1.6vmin;justify-content:center;margin-top:2.6vmin;position:relative;z-index:1;}
+.pill{background:#fff;border:2px solid var(--pink);border-radius:999px;padding:.5em 1.2em;font-weight:800;font-size:clamp(13px,2vmin,20px);box-shadow:var(--shadow);}
+.pill.alt{border-color:var(--blue);}
+.welfare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,28vw),1fr));gap:1.8vmin;width:min(1200px,94vw);margin-top:3vmin;position:relative;z-index:1;}
+.wcard{background:#fff;border-radius:22px;padding:2.2vmin;box-shadow:var(--shadow);border-top:.8vmin solid var(--pink);}
+.wcard:nth-child(2n){border-top-color:var(--blue);}
+.wcard:nth-child(3n){border-top-color:var(--orange);}
+.wcard h3{font-family:"Zen Maru Gothic";font-size:clamp(14px,2.1vmin,20px);font-weight:800;margin-bottom:.6vmin;}
+.wcard p{font-size:clamp(11px,1.6vmin,15px);font-weight:500;line-height:1.55;color:#7d6a6f;}
+.rank-table{width:min(980px,92vw);margin-top:3vmin;border-collapse:separate;border-spacing:0 1vmin;position:relative;z-index:1;}
+.rank-table th{font-size:clamp(12px,1.8vmin,17px);font-weight:800;color:#8a777c;padding:.4em;}
+.rank-table td{
+  background:#fff;padding:1.2vmin 1.6vmin;font-weight:800;font-size:clamp(13px,2.2vmin,22px);
+  box-shadow:var(--shadow);
+}
+.rank-table tr td:first-child{border-radius:16px 0 0 16px;font-family:"Zen Maru Gothic";font-weight:900;}
+.rank-table tr td:last-child{border-radius:0 16px 16px 0;}
+.rank-table tr.hl td{background:#FFF2D6;border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);}
+.rank-table tr.hl td:first-child{border-left:2px solid var(--gold);}
+.rank-table tr.hl td:last-child{border-right:2px solid var(--gold);}
+
+.goalbar{width:min(900px,90vw);height:6vmin;min-height:38px;background:#fff;border-radius:999px;box-shadow:var(--shadow);margin-top:3.5vmin;position:relative;z-index:1;overflow:hidden;border:2px solid var(--pink-pale);}
+.goalbar .fill{height:100%;width:35%;background:linear-gradient(90deg,var(--pink),var(--pink-deep));border-radius:999px;display:flex;align-items:center;justify-content:flex-end;color:#fff;font-weight:900;padding-right:1.4em;font-size:clamp(13px,2.2vmin,22px);}
+
+/* ===== award theme ===== */
+.award{background:radial-gradient(120% 120% at 50% 0%,#2A241E 0%,var(--night) 70%);color:#F4E9D2;}
+.award::before,.award::after{
+  content:"";position:absolute;left:3vmin;right:3vmin;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.award::before{top:3.5vmin;}
+.award::after{bottom:3.5vmin;}
+.award .eyebrow{color:var(--gold);border-color:var(--gold);background:transparent;border-style:solid;}
+.award h1,.award h2{color:var(--gold-light);}
+.award .serifish{font-weight:700;letter-spacing:.12em;}
+.gp-num{font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(56px,13vmin,160px);color:#fff;line-height:1;position:relative;z-index:1;text-shadow:0 0 30px rgba(216,180,90,.35);}
+.gp-num small{font-size:.35em;color:var(--gold);}
+.gp-cap{margin-top:2.4vmin;font-size:clamp(14px,2.2vmin,22px);font-weight:600;line-height:1.9;color:#D9CBAE;position:relative;z-index:1;}
+.gp-cap b{color:var(--gold-light);}
+.gp-label{font-size:clamp(14px,2.2vmin,22px);font-weight:800;color:var(--gold);letter-spacing:.25em;text-indent:.25em;margin-bottom:1.5vmin;position:relative;z-index:1;}
+.winner{font-family:"Zen Maru Gothic";font-weight:900;font-size:clamp(40px,9vmin,110px);color:#fff;position:relative;z-index:1;text-shadow:0 2px 0 rgba(0,0,0,.4),0 0 40px rgba(216,180,90,.3);}
+.trophy{font-size:10vmin;margin-bottom:1vmin;filter:drop-shadow(0 0 18px rgba(216,180,90,.5));}
+.gline{width:min(560px,70vw);height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:2.6vmin auto;position:relative;z-index:1;}
+.award .sub{color:#D9CBAE;}
+
+/* night/photo slide */
+.dusk{background:linear-gradient(180deg,#3A4A6B 0%,#7A5E72 55%,#C97E6F 100%);color:#FFF4E3;}
+.dusk h1,.dusk h2{color:#FFEFC9;}
+.dusk .card{background:rgba(255,255,255,.12);border-color:rgba(255,239,201,.4);backdrop-filter:blur(4px);}
+.dusk .card h3{color:#FFEFC9;}
+.dusk .card p{color:#FFF6E6;}
+.dusk .card .ic{background:rgba(255,239,201,.18);}
+
+/* ===== chrome (nav UI) ===== */
+#progress{position:fixed;left:0;bottom:0;height:6px;background:linear-gradient(90deg,var(--pink),var(--blue));width:0;z-index:50;transition:width .25s;border-radius:0 99px 99px 0;}
+#counter{
+  position:fixed;bottom:14px;right:16px;z-index:50;
+  background:#fff;color:var(--ink);font-weight:800;font-size:13px;
+  border-radius:999px;padding:6px 14px;box-shadow:var(--shadow);
+}
+.navbtn{
+  position:fixed;top:50%;transform:translateY(-50%);z-index:50;
+  width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+  background:#fff;box-shadow:var(--shadow);font-size:18px;color:var(--pink-deep);
+  font-weight:900;opacity:.85;transition:.15s;
+}
+.navbtn:hover{opacity:1;transform:translateY(-50%) scale(1.08);}
+.navbtn:focus-visible{outline:3px solid var(--blue-deep);}
+#prev{left:14px;}
+#next{right:14px;}
+#menuBtn{
+  position:fixed;bottom:14px;left:16px;z-index:50;border:none;cursor:pointer;
+  background:#fff;color:var(--ink);font-weight:800;font-size:13px;
+  border-radius:999px;padding:6px 14px;box-shadow:var(--shadow);font-family:inherit;
+}
+#menu{
+  position:fixed;inset:0;z-index:60;background:rgba(90,71,76,.55);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;padding:4vmin;
+}
+#menu.open{display:flex;}
+#menu .panel{
+  background:var(--cream);border-radius:24px;padding:3vmin;max-height:84vh;overflow:auto;
+  width:min(900px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+#menu h3{font-family:"Zen Maru Gothic";color:var(--pink-deep);margin-bottom:1.6vmin;font-size:18px;}
+#menu .jump{display:flex;flex-wrap:wrap;gap:8px;}
+#menu .jump button{
+  border:2px solid var(--pink-pale);background:#fff;border-radius:999px;
+  padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;color:var(--ink);
+}
+#menu .jump button:hover{border-color:var(--pink);}
+.kbd-hint{position:fixed;bottom:46px;right:16px;z-index:50;font-size:11px;color:#a98f95;font-weight:700;}
+@media(max-width:640px){
+  .choices{grid-template-columns:1fr;}
+  .kbd-hint{display:none;}
+}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+
+<button class="navbtn" id="prev" aria-label="前のスライド">‹</button>
+<button class="navbtn" id="next" aria-label="次のスライド">›</button>
+<div id="progress"></div>
+<div id="counter">1 / 1</div>
+<button id="menuBtn">📑 もくじ</button>
+<div class="kbd-hint">← → キーで移動 / F で全画面</div>
+
+<div id="menu" role="dialog" aria-label="スライド一覧">
+  <div class="panel">
+    <h3>🌸 もくじ（クリックでジャンプ）</h3>
+    <div class="jump" id="jumpList"></div>
+  </div>
+</div>
+
+<script>
+/* ====== quiz data ====== */
+const QUIZ = [
+  {n:"①", q:"プラス・ピボットの創業日は？", c:["2022年4月","2023年4月","2021年10月","2024年1月"], a:1},
+  {n:"➁", q:"プラス・ピボットの社長の名前は？", c:["山本 直樹","山田 直生","山本 直生","山口 直生"], a:2},
+  {n:"③", q:"現在の事業所数はいくつ？（事務センター含む）<br><span style='font-size:.55em'>※日本国内のみ</span>", c:["8拠点","9拠点","10拠点","11拠点"], a:3},
+  {n:"④", q:"ゴールドランクの累計勤務時間は？", c:["2000時間","2500時間","3000時間","3500時間"], a:2},
+  {n:"⑤", q:"友人紹介制度のポイント付与数は？", c:["1000pt","3000pt","8000pt","10000pt"], a:3},
+  {n:"⑥", q:"生活サポートで使えるパケット通信は何GB？", c:["5GB","10GB","30GB","50GB"], a:3},
+  {n:"⑦", q:"独自の福利厚生は全部でいくつ？", c:["7個","8個","9個","10個"], a:0},
+  {n:"⑧", q:"動画チャンネル名は？", c:["ハケンの革命！","ハケンの変革！","ハケンの挑戦！","ハケンの基本！"], a:1},
+  {n:"⑨", q:"唯一の海外オフィスはどこ？", c:["フィリピン","ベトナム","ミャンマー","インドネシア"], a:2},
+  {n:"⑩", q:"在籍ホップメイト数は？", c:["約800名","約950名","約1050名","約1200名"], a:2},
+];
+const MK = ["Ⓐ","Ⓑ","Ⓒ","Ⓓ"];
+
+const blobs = `<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>`;
+const confetti = (()=>{let s="";for(let i=0;i<18;i++){const l=Math.random()*100,d=Math.random()*7,c=["#F2A0AC","#9FD9DC","#F59E2D","#E8798C","#FFD79A"][i%5];s+=`<i style="left:${l}%;animation-delay:-${d}s;background:${c}"></i>`;}return `<div class="confetti">${s}</div>`;})();
+
+function timerHTML(){
+  return `<div class="timer" tabindex="0" role="button" aria-label="60秒タイマー">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="none" stroke="#FFE2BC" stroke-width="7"/><circle class="ring" cx="30" cy="30" r="26" fill="none" stroke="#F59E2D" stroke-width="7" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="0"/></svg>
+    <div><div class="tt">⏱ 60秒</div><div class="hint">クリックでスタート / もう一度でリセット</div></div>
+  </div>`;
+}
+function quizQ(i){
+  const q=QUIZ[i];
+  return `<section class="slide quiz" data-title="クイズ${q.n}">
+    <div class="qband"></div>
+    <div class="qnum">🧠 ホップウルトラクイズ 第${i+1}問</div>
+    <h2>${q.n} ${q.q}</h2>
+    <div class="choices">${q.c.map((t,j)=>`<div class="choice"><span class="mk">${MK[j]}</span>${t}</div>`).join("")}</div>
+    ${timerHTML()}
+  </section>`;
+}
+function quizA(i){
+  const q=QUIZ[i];
+  return `<section class="slide quiz" data-title="正解${q.n}">
+    <div class="qband"></div>
+    ${confetti}
+    <div class="anslabel">正解！</div>
+    <div class="ansbox"><span class="mk">${MK[q.a]}</span>${q.c[q.a].replace(/<br.*$/,"")}</div>
+  </section>`;
+}
+
+/* ====== slides ====== */
+const S = [];
+
+/* 1. title */
+S.push(`<section class="slide" data-title="タイトル">
+  <div class="brandbar"></div>${blobs}
+  <div class="logo"><span class="svc">介 護 人 材 サ ー ビ ス</span><span class="nm">⁺<b>ホップ</b></span></div>
+  <div class="hopdots"><span class="hopdot"></span><span class="hopdot"></span><span class="hopdot"></span></div>
+  <h1>ホップ<span class="wavy">感謝祭</span></h1>
+  <div class="sub">in 京都 🍡</div>
+  <div class="datechip">2026.06.12 (金)</div>
+  <div class="footerband">⊕ PlusPivot</div>
+</section>`);
+
+/* 2-3. MC */
+S.push(`<section class="slide" data-title="司会者の紹介">
+  ${blobs}<div class="eyebrow">M C</div><h1>司会者の紹介 🎤</h1>
+</section>`);
+S.push(`<section class="slide" data-title="司会者プロフィール">
+  ${blobs}<div class="eyebrow">本日の司会</div>
+  <div class="profile">
+    <div class="avatar">🎤</div>
+    <div class="pbody">
+      <h2>ふうやホップ</h2>
+      <div class="kana">大林 楓谷（おおばやし ふうや）</div>
+      <div class="meta">梅田オフィス</div>
+      <div class="meta">1995年10月21日生まれ・30歳</div>
+    </div>
+  </div>
+  <div class="ribbon">滋賀県出身 🗾 琵琶湖を愛し琵琶湖に愛された男<br>趣味：サッカー観戦 ⚽</div>
+</section>`);
+
+/* 4-5. notes */
+S.push(`<section class="slide" data-title="注意事項">
+  ${blobs}<div class="eyebrow">N O T I C E</div><h1>注意事項 📌</h1>
+</section>`);
+S.push(`<section class="slide" data-title="注意事項 詳細">
+  ${blobs}<h2>注意事項</h2>
+  <div class="cardgrid">
+    <div class="card"><div class="ic">🚻</div><div><h3>お手洗いについて</h3><p>入口近く・入口外にございます。ご歓談中にご利用頂ければ幸いです。</p></div></div>
+    <div class="card"><div class="ic">👜</div><div><h3>貴重品の管理について</h3><p>手荷物や貴重品の管理は各自でお願いいたします。</p></div></div>
+    <div class="card"><div class="ic">🚪</div><div><h3>途中でお帰りになる方</h3><p>営業へお声掛けください。</p></div></div>
+    <div class="card"><div class="ic">💬</div><div><h3>自己紹介について</h3><p>ご歓談の時間で、簡単な自己紹介をお願いいたします。交流促進のため、是非ご活用くださいませ。</p></div></div>
+    <div class="card"><div class="ic">🍻</div><div><h3>アルコールについて</h3><p>節度ある飲酒を心がけましょう。</p></div></div>
+    <div class="card"><div class="ic">📸</div><div><h3>写真SNS使用について</h3><p>撮影した写真は弊社SNSで使用させて頂くことがございます。使用不可の方は担当営業にお申し付けください。</p></div></div>
+  </div>
+</section>`);
+
+/* 6-7. about */
+S.push(`<section class="slide" data-title="感謝祭とは">
+  ${blobs}<div class="eyebrow">A B O U T</div><h1>感謝祭とは 🌸</h1>
+</section>`);
+S.push(`<section class="slide" data-title="感謝祭とは 詳細">
+  ${blobs}<h2>感謝祭とは</h2>
+  <div class="ribbon" style="max-width:min(950px,92vw)">お勤め頂いている<b style="color:var(--pink-deep)">ホップメイト・クライアントの皆さま</b>へ<br>日頃の感謝を込めて開催しているオフラインイベント！</div>
+  <div class="pillrow">
+    <div class="pill">🎉 テーマは「仲間と楽しむ・繋がる・学ぶ」</div>
+    <div class="pill alt">🆓 参加費はもちろん無料！</div>
+    <div class="pill">👨‍👩‍👧 ご友人・ご家族のご参加もOK♪</div>
+    <div class="pill alt">🤝 ホップメイトさん同士の横のつながりも</div>
+  </div>
+</section>`);
+
+/* 8-9. schedule */
+S.push(`<section class="slide" data-title="タイムスケジュール">
+  ${blobs}<div class="eyebrow">S C H E D U L E</div><h1>タイムスケジュール ⏰</h1>
+</section>`);
+S.push(`<section class="slide" data-title="スケジュール詳細">
+  ${blobs}<h2>タイムスケジュール</h2>
+  <div class="timeline">
+    <div class="trow"><div class="ttime">18:15〜</div><div class="tdot"></div><div class="tlabel">挨拶・乾杯 🥂</div></div>
+    <div class="trow"><div class="ttime">18:40〜</div><div class="tdot"></div><div class="tlabel">ホップウルトラクイズ 🧠</div></div>
+    <div class="trow"><div class="ttime">19:20〜</div><div class="tdot"></div><div class="tlabel">ホップAward 🏆</div></div>
+    <div class="trow"><div class="ttime">19:50〜</div><div class="tdot"></div><div class="tlabel">ホップウルトラビンゴ大会 🎱</div></div>
+    <div class="trow"><div class="ttime">20:40〜</div><div class="tdot"></div><div class="tlabel">閉会の挨拶＆写真撮影 📷</div></div>
+  </div>
+</section>`);
+
+/* 10. kanpai */
+S.push(`<section class="slide" data-title="乾杯">
+  ${blobs}${confetti}
+  <div class="kanpai">🥂</div><h1>乾杯</h1>
+  <div class="speaker-card" style="margin-top:3vmin">
+    <div class="role">株式会社プラス・ピボット<br>京都サテライトオフィスマネージャー</div>
+    <div class="nm">山本 有希</div>
+  </div>
+</section>`);
+
+/* 11. interlude */
+S.push(`<section class="slide interlude" data-title="ご歓談①">
+  ${confetti}<div class="kanpai">🍽️</div><h1>ご歓談を<br>お楽しみください！</h1>
+</section>`);
+
+/* 12. quiz title */
+S.push(`<section class="slide quiz" data-title="クイズ オープニング">
+  <div class="qband"></div>${confetti}
+  <div class="qnum">🧠 QUIZ TIME</div>
+  <h1 style="color:var(--orange-deep)">ホップウルトラクイズ</h1>
+  <div class="sub">プラス・ピボットのことが丸わかり⁉<br>正解発表は1問ずつ行います ♪</div>
+</section>`);
+
+/* 13. rules */
+S.push(`<section class="slide quiz" data-title="クイズ ルール">
+  <div class="qband"></div>
+  <h2>🎀 ルール概要 🎀</h2>
+  <div class="cardgrid">
+    <div class="card"><div class="ic">🙌</div><div><h3 style="color:var(--orange-deep)">チーム対抗戦！！</h3><p>テーブルごとのチームで挑戦します。</p></div></div>
+    <div class="card"><div class="ic">⏱</div><div><h3 style="color:var(--orange-deep)">制限時間は1問1分！</h3><p>時間内にチームで答えをまとめましょう。</p></div></div>
+    <div class="card"><div class="ic">🏆</div><div><h3 style="color:var(--orange-deep)">ポイントが多いチームが優勝！</h3><p>（テーブルの営業が管理します）</p></div></div>
+    <div class="card"><div class="ic">🎱</div><div><h3 style="color:var(--orange-deep)">優勝チームには特典⁉</h3><p>最後に行うビンゴ大会で有利になる⁉</p></div></div>
+    <div class="card" style="grid-column:1/-1"><div class="ic">✍️</div><div><h3 style="color:var(--orange-deep)">回答方法</h3><p>チームの代表の方がテーブルの紙に答えを記載してください。<b style="color:var(--pink-deep)">みなさん大いに盛り上がって下さい！！</b></p></div></div>
+  </div>
+</section>`);
+
+/* Q1 */
+S.push(quizQ(0)); S.push(quizA(0));
+S.push(`<section class="slide quiz" data-title="会社概要">
+  <div class="qband"></div><h2>会社概要 🏢</h2>
+  <div class="factwrap"><div class="factcard"><dl>
+    <dt>社名</dt><dd>株式会社プラス・ピボット</dd>
+    <dt>創業</dt><dd><b style="color:var(--pink-deep)">2023年4月</b>（※設立日：2022年12月13日）</dd>
+    <dt>本社</dt><dd>東京都渋谷区代々木2-7-1 昇立ビル7F</dd>
+    <dt>主な事業</dt><dd>介護人材サービス（人材派遣／紹介／特定技能）</dd>
+    <dt>従業員数</dt><dd>約70名（男性7：女性3）</dd>
+    <dt>経営理念</dt><dd>関わる人を「豊か」にする。我々はその「転換点」となる。</dd>
+  </dl></div></div>
+</section>`);
+S.push(`<section class="slide quiz" data-title="売上推移">
+  <div class="qband"></div>${confetti}<h2>当社の売上推移 📈</h2>
+  <div class="bignum">280<small>％成長！</small></div>
+  <div class="sub">3年間で売上280％成長 🚀</div>
+</section>`);
+
+/* Q2 */
+S.push(quizQ(1)); S.push(quizA(1));
+S.push(`<section class="slide quiz" data-title="代表紹介">
+  <div class="qband"></div><h2>代表紹介 👔</h2>
+  <div class="profile" style="margin-top:1vmin">
+    <div class="avatar" style="border-color:#FFE9D2">👨‍💼</div>
+    <div class="pbody">
+      <h2 style="color:var(--orange-deep)">山本 直生</h2>
+      <div class="kana">平成元年生まれ・35歳／東京都渋谷区出身</div>
+      <div class="meta">家族構成：妻・子ども2人（息子4歳、娘3歳）・イヌ（10歳）</div>
+      <div class="meta">2012〜2023年 株式会社ネオキャリア／2023年〜 プラス・ピボット創業</div>
+    </div>
+  </div>
+  <div class="ribbon" style="max-width:min(1000px,92vw);font-size:clamp(12px,1.9vmin,18px)">新卒で介護派遣サービスを立上げ、10年で全国60拠点・7,000名超を派遣する日本最大級のサービスへ。2023年に仲間と共に創業し「続ける方をサポートする」をコンセプトに『+ホップ』をスタート。創業2年で全国13拠点・売上18億円の急成長。2033年までに売上400億・47都道府県展開を計画中！</div>
+</section>`);
+
+/* Q3 */
+S.push(quizQ(2)); S.push(quizA(2));
+S.push(`<section class="slide quiz" data-title="全国拠点地">
+  <div class="qband"></div><h2>全国拠点地 🗾</h2>
+  <div class="bignum" style="font-size:clamp(40px,8vmin,96px)">11<small>拠点！！</small></div>
+  <div class="pillrow">
+    ${["青森","盛岡","仙台","新潟","上越","新宿","金沢","名古屋","梅田","福岡","鹿児島"].map(c=>`<div class="pill">${c}</div>`).join("")}
+  </div>
+  <div class="sub" style="margin-top:3vmin">展開エリア：山形・横浜・千葉・富山・神戸・<b style="color:var(--pink-deep)">京都</b>・岐阜・秋田</div>
+  <div class="ribbon">🎯 2033年 全国47都道府県に進出！「10のサービス・100の拠点」</div>
+</section>`);
+
+/* Q4 */
+S.push(quizQ(3)); S.push(quizA(3));
+S.push(`<section class="slide quiz" data-title="ポイントランク詳細">
+  <div class="qband"></div><h2>ポイントランク詳細 🏅</h2>
+  <table class="rank-table">
+    <tr><th>会員ランク</th><th>ランクUP基準（累計時間）</th><th>勤務P（1時間ごと）</th><th>昇格時ボーナス</th></tr>
+    <tr><td>💎 ダイヤモンド</td><td>8000時間以上</td><td>×50P</td><td>1000P</td></tr>
+    <tr><td>🥈 プラチナ</td><td>5000時間以上</td><td>×30P</td><td>1000P</td></tr>
+    <tr class="hl"><td>🥇 ゴールド</td><td><b>3000時間以上</b></td><td>×10P</td><td>1000P</td></tr>
+    <tr><td>⚪ シルバー</td><td>1500時間以上</td><td>×5P</td><td>1000P</td></tr>
+    <tr><td>🟤 ブロンズ</td><td>500時間以上</td><td>×3P</td><td>1000P</td></tr>
+    <tr><td>🔰 レギュラー</td><td>－</td><td>×1P</td><td>－</td></tr>
+  </table>
+  <div class="sub" style="font-size:clamp(12px,1.8vmin,17px)">紹介P：ご就業開始で20000P（紹介者10000P／ご友人10000P）・続けるほどお得！！</div>
+</section>`);
+S.push(`<section class="slide quiz" data-title="ランクごとの人数">
+  <div class="qband"></div><h2>会員ランクごとの人数 👥</h2>
+  <div class="pillrow" style="margin-top:4vmin">
+    <div class="pill" style="font-size:clamp(15px,2.6vmin,26px)">🟤 ブロンズ <b>303名</b></div>
+    <div class="pill alt" style="font-size:clamp(15px,2.6vmin,26px)">⚪ シルバー <b>181名</b></div>
+    <div class="pill" style="font-size:clamp(15px,2.6vmin,26px)">🥇 ゴールド <b>78名</b></div>
+    <div class="pill alt" style="font-size:clamp(15px,2.6vmin,26px)">🥈 プラチナ <b>6名</b></div>
+  </div>
+  <div class="ribbon">ランクUP時にはボーナスポイント <b style="color:var(--pink-deep)">1000P</b> 付与！</div>
+  <div class="sub" style="font-size:clamp(12px,1.9vmin,18px)">＜2月度昇格人数＞ レギュラー→ブロンズ 52名／ブロンズ→シルバー 24名／シルバー→ゴールド 13名</div>
+</section>`);
+
+/* Q5 */
+S.push(quizQ(4)); S.push(quizA(4));
+S.push(`<section class="slide quiz" data-title="ご友人紹介">
+  <div class="qband"></div>${confetti}<h2>ご友人紹介 🤝</h2>
+  <div class="cardgrid" style="grid-template-columns:1fr 1fr;width:min(1000px,92vw)">
+    <div class="card"><div class="ic">💁‍♀️</div><div><h3 style="color:var(--orange-deep)">ご紹介者様</h3><p>①ホップの求人サイトもしくは公式LINEをご紹介ください。<br>②会員登録時にあなたのお名前を入力いただくようお伝えください。</p></div></div>
+    <div class="card"><div class="ic">🙋‍♀️</div><div><h3 style="color:var(--orange-deep)">ご友人</h3><p>①ホップの求人サイトから会員登録。<br>②友人紹介にチェック＆ご紹介者様のお名前をフルネームで記載してください。</p></div></div>
+  </div>
+  <div class="bignum" style="font-size:clamp(34px,7vmin,84px);margin-top:3vmin">両者に 10,000P<small>（10,000円相当）</small></div>
+  <div class="sub" style="font-size:clamp(12px,1.8vmin,17px)">※勤務開始1ヶ月経過後にキャンペーン適用。1P＝1円として現金支給されます！（規定あり）</div>
+</section>`);
+
+/* Q6 */
+S.push(quizQ(5)); S.push(quizA(5));
+S.push(`<section class="slide quiz" data-title="生活サポート詳細">
+  <div class="qband"></div><h2>生活サポート詳細 📱</h2>
+  <div class="ribbon" style="max-width:min(950px,92vw)">携帯料金を<b style="color:var(--pink-deep)">ホップが負担</b>させていただきます！</div>
+  <div class="pillrow">
+    <div class="pill">📞 国内通話かけ放題！！</div>
+    <div class="pill alt">📶 パケット通信50GB！！</div>
+    <div class="pill">💝 お仕事期間中はずーっとホップが負担！</div>
+  </div>
+  <div class="cardgrid" style="width:min(950px,92vw)">
+    <div class="card"><div class="ic">✨</div><div><h3 style="color:var(--orange-deep)">手続きカンタン</h3><p>現在お持ちのスマホに「eSIM」を発行。面倒な手続きは無し！QRコードを読み取るだけでOK！通話料・パケット代を気にしない快適なスマホライフを送れます（実質9,000円超相当）。</p></div></div>
+  </div>
+</section>`);
+
+/* Q7 */
+S.push(quizQ(6)); S.push(quizA(6));
+S.push(`<section class="slide quiz" data-title="7つの福利厚生">
+  <div class="qband"></div><h2>ホップの7つの福利厚生 🎁</h2>
+  <div class="welfare">
+    <div class="wcard"><h3>💰 ポイント制度</h3><p>時給に加えて勤務時間に応じてホップPを付与。貯まったポイントは賞与として現金還元♪</p></div>
+    <div class="wcard"><h3>📈 会員ランク</h3><p>勤務時間に応じた明確な評価基準。ランクUPするとポイント倍率UP！</p></div>
+    <div class="wcard"><h3>📱 生活サポート</h3><p>国内通話無料・50ギガ対応の「eSIM」を無料で発行！ケータイ代をホップが負担！</p></div>
+    <div class="wcard"><h3>🎉 ホップ感謝祭</h3><p>毎月全国各地で交流会を実施。食事やビンゴ大会、プチセミナーなど知識と交流を深められます♪</p></div>
+    <div class="wcard"><h3>💌 ホップ通信</h3><p>毎月郵送でお届け。取組紹介や社長からのメッセージ、社員コラム、キャンペーンも随時開催中♪</p></div>
+    <div class="wcard"><h3>💻 ホップで副業</h3><p>日本での就職を目指すミャンマーの学生とWEBでお話。週1回30分からOK！（謝礼：2,000円/1時間）</p></div>
+    <div class="wcard"><h3>🍽 メイトdeランチ</h3><p>頑張るあなたへ美味しい食事をプレゼント！営業担当・ご友人と一緒にランチしませんか？（費用は当社負担）</p></div>
+  </div>
+</section>`);
+
+/* Q8 */
+S.push(quizQ(7)); S.push(quizA(7));
+S.push(`<section class="slide quiz" data-title="介護ブランディング">
+  <div class="qband"></div><h2>介護ブランディング 📣</h2>
+  <div class="cardgrid" style="width:min(1050px,92vw)">
+    <div class="card"><div class="ic">📷</div><div><h3 style="color:var(--orange-deep)">Instagram</h3><p>pluspivot_official ─ 派遣営業が知っておくべき用語や制度をわかりやすく発信中！</p></div></div>
+    <div class="card"><div class="ic">▶️</div><div><h3 style="color:var(--orange-deep)">YouTube「ハケンの変革！」</h3><p>社長1週間密着・営業1日密着など人気企画を配信中！</p></div></div>
+    <div class="card"><div class="ic">💫</div><div><h3 style="color:var(--orange-deep)">ピボタス⁺</h3><p>社員インタビューメディア。働く仲間のリアルな声をお届け♪</p></div></div>
+  </div>
+  <div class="bignum" style="font-size:clamp(30px,6.5vmin,76px);margin-top:3vmin">登録者 1,150人 突破 ✨</div>
+</section>`);
+
+/* Q9 */
+S.push(quizQ(8)); S.push(quizA(8));
+S.push(`<section class="slide quiz" data-title="ヤンゴンオフィス">
+  <div class="qband"></div><h2>ヤンゴンオフィス 🇲🇲</h2>
+  <div class="sub">「ヤンゴンオフィスのサガラです！」</div>
+  <div class="factwrap"><div class="factcard"><dl>
+    <dt>国／都市</dt><dd>ミャンマー／ヤンゴン（南部・経済・商業の中心）</dd>
+    <dt>人口</dt><dd>約500〜600万人（ミャンマー最大都市）</dd>
+    <dt>旧首都</dt><dd>2006年まで（現首都はネピドー）</dd>
+    <dt>名所</dt><dd>シュエダゴン・パゴダ（最大の聖地／高さ約100m・約2500年前建立）</dd>
+  </dl></div></div>
+  <div class="pillrow">
+    <div class="pill">🏫 ①内定者への授業（日本語・マナー・文化等）</div>
+    <div class="pill alt">🗣 ②内定者の方との面談</div>
+    <div class="pill">📝 ③面接者の選定と面接対応</div>
+  </div>
+</section>`);
+
+/* Q10 */
+S.push(quizQ(9)); S.push(quizA(9));
+S.push(`<section class="slide quiz" data-title="OUR GOALS">
+  <div class="qband"></div><h2>OUR GOALS 🏔</h2>
+  <div class="pillrow">
+    <div class="pill" style="font-size:clamp(15px,2.5vmin,25px)">🌸 ホップメイトさん3,000名在籍</div>
+    <div class="pill alt" style="font-size:clamp(15px,2.5vmin,25px)">🗾 全国47都道府県に拠点を構える</div>
+  </div>
+  <div class="goalbar"><div class="fill">1,050名</div></div>
+  <div class="bignum" style="font-size:clamp(30px,6.5vmin,76px)">1,050 <small>/ 3,000名（あと1,950名）</small></div>
+  <div class="ribbon" style="max-width:min(950px,92vw)">「+ホップ」は皆様と共に成長していく事業です。ゴール達成には皆様のお力が不可欠です！<br><b style="color:var(--pink-deep)">ご友人・お知り合いの方などのご紹介を、心よりお待ちしております。</b></div>
+</section>`);
+
+/* interlude */
+S.push(`<section class="slide interlude" data-title="ご歓談②">
+  ${confetti}<div class="kanpai">☕</div><h1>ご歓談を<br>お楽しみください！</h1>
+</section>`);
+
+/* ===== Award ===== */
+S.push(`<section class="slide award" data-title="ホップAward">
+  <div class="trophy">🏆</div>
+  <h1 class="serifish">ホップ<i style="font-style:italic">Award</i></h1>
+</section>`);
+S.push(`<section class="slide award" data-title="Award 概要">
+  <div class="eyebrow">概 要</div>
+  <p class="gp-cap" style="max-width:min(950px,92vw);font-size:clamp(15px,2.4vmin,24px)">弊社コンセプト<b>「続ける方をサポートする」</b>を体現され、介護を続け、派遣先介護施設に<b>貢献</b>されたホップメイトさんに、日頃の<b>感謝</b>を込めて<b>表彰</b>をさせていただきます！</p>
+  <div class="gline"></div>
+  <div class="pillrow">
+    <div class="pill" style="background:transparent;border-color:var(--gold);color:var(--gold-light)">🎖 趣旨：「続ける」を体現されるメイト様を称える</div>
+    <div class="pill" style="background:transparent;border-color:var(--gold);color:var(--gold-light)">📅 受賞条件：継続1年以上のホップメイト</div>
+    <div class="pill" style="background:transparent;border-color:var(--gold);color:var(--gold-light)">📋 受賞項目：厳選された3つの部門</div>
+  </div>
+</section>`);
+
+/* award dept 1 */
+S.push(`<section class="slide award" data-title="稼働時間部門">
+  <h1 class="serifish">稼働時間部門</h1>
+</section>`);
+S.push(`<section class="slide award" data-title="稼働時間 最優秀賞">
+  <div class="eyebrow">最 優 秀 賞</div>
+  <div class="gp-label">累計稼働時間</div>
+  <div class="gp-num">3,239<small>h</small></div>
+  <p class="gp-cap">この驚異的な数字は、一日一日の誠実な積み重ねの結晶です。<br>あなたこそが<b>「+ホップのガチ介護士」</b>です。</p>
+</section>`);
+S.push(`<section class="slide award" data-title="稼働時間 受賞者">
+  ${confetti}<div class="trophy">🏆</div>
+  <div class="gp-label">最優秀賞 | GRAND PRIZE</div>
+  <div class="winner">宗村 尚子 様</div>
+  <div class="gline"></div>
+  <div class="gp-label">累計稼働時間</div>
+  <div class="gp-num" style="font-size:clamp(40px,9vmin,110px)">3,239<small>h</small></div>
+</section>`);
+
+/* award dept 2 */
+S.push(`<section class="slide award" data-title="施設定着部門">
+  <h1 class="serifish">施設定着部門</h1>
+</section>`);
+S.push(`<section class="slide award" data-title="施設定着 最優秀賞">
+  <div class="eyebrow">最 優 秀 賞</div>
+  <div class="gp-label">累計稼働月数</div>
+  <div class="gp-num">26<small> MONTH</small></div>
+  <p class="gp-cap">移り変わる時代の中で、変わらぬ献身を捧げ続けた年月。<br>その<b>「不変の信頼」</b>に、最大の敬意を表します。</p>
+</section>`);
+S.push(`<section class="slide award" data-title="施設定着 受賞者">
+  ${confetti}<div class="trophy">🏆</div>
+  <div class="gp-label">最優秀賞 | GRAND PRIZE</div>
+  <div class="winner">垣本 志津枝 様</div>
+  <div class="gline"></div>
+  <div class="gp-label">累計稼働月数</div>
+  <div class="gp-num" style="font-size:clamp(40px,9vmin,110px)">26<small> MONTH</small></div>
+</section>`);
+
+/* award dept 3 */
+S.push(`<section class="slide award" data-title="オフィス推薦部門">
+  <h1 class="serifish">オフィス推薦部門</h1>
+</section>`);
+S.push(`<section class="slide award" data-title="オフィス推薦 受賞者">
+  ${confetti}<div class="trophy">🏆</div>
+  <div class="gp-label">最優秀賞 | GRAND PRIZE</div>
+  <div class="winner">○○ ○○ 様</div>
+  <div class="gline"></div>
+  <p class="gp-cap">※受賞者名はHTML内「オフィス推薦 受賞者」スライドを編集してください</p>
+</section>`);
+
+/* thank you */
+S.push(`<section class="slide award" data-title="THANK YOU">
+  ${confetti}
+  <h1 class="serifish" style="letter-spacing:.14em">THANK YOU</h1>
+  <div class="gline"></div>
+  <p class="gp-cap" style="font-size:clamp(15px,2.5vmin,25px)">改めて、受賞いただいたみなさん、おめでとうございます！<br>ホップは今後も皆さんをサポートさせていただきます！</p>
+</section>`);
+
+/* interlude */
+S.push(`<section class="slide interlude" data-title="ご歓談③">
+  ${confetti}<div class="kanpai">🍰</div><h1>ご歓談を<br>お楽しみください</h1>
+</section>`);
+
+/* bingo */
+S.push(`<section class="slide" data-title="ビンゴ大会" style="background:var(--pink);">
+  ${confetti}
+  <div style="border:.6vmin solid #fff;border-radius:28px;padding:7vmin 9vmin;position:relative;z-index:1">
+    <h1 style="color:#fff">🎱 ホップビンゴ大会<br>スタート！</h1>
+  </div>
+</section>`);
+
+/* survey */
+S.push(`<section class="slide" data-title="アンケート">
+  ${blobs}<div class="kanpai">📝</div>
+  <h1>アンケート記載を<br>お願いいたします！</h1>
+</section>`);
+
+/* closing */
+S.push(`<section class="slide" data-title="閉会の挨拶">
+  ${blobs}<div class="eyebrow">C L O S I N G</div><h1>閉会の挨拶</h1>
+  <div class="speaker-card" style="margin-top:3vmin">
+    <div class="role">株式会社プラス・ピボット<br>関西統括エリアマネジャー</div>
+    <div class="nm">桑田 健吾</div>
+  </div>
+</section>`);
+
+/* photo */
+S.push(`<section class="slide dusk" data-title="写真撮影" style="background:linear-gradient(160deg,#F2A0AC,#E8798C)">
+  ${confetti}<div class="kanpai">📸</div>
+  <h1 style="color:#fff">写真撮影</h1>
+  <div class="ribbon" style="max-width:min(900px,92vw);border-color:#fff;background:rgba(255,255,255,.92)">※写真SNS使用について<br>写真については弊社SNSで使用させて頂くことがございます。<br>使用不可の方はお手数ですが、担当営業にお申し付けください。</div>
+</section>`);
+
+/* going home */
+S.push(`<section class="slide dusk" data-title="お帰りに際して">
+  <h1>お帰りに際して 🌙</h1>
+  <div class="cardgrid" style="width:min(1100px,93vw)">
+    <div class="card"><div class="ic">🚗</div><div><h3>お気をつけて</h3><p>夜も暗くなってきております。お気を付けてお帰りくださいませ。アルコールを飲酒された方は、飲酒運転等ないようお気を付けください。</p></div></div>
+    <div class="card"><div class="ic">📝</div><div><h3>アンケート提出について</h3><p>受付にてアンケートを回収させて頂いております。</p></div></div>
+    <div class="card"><div class="ic">📸</div><div><h3>写真SNS使用について</h3><p>撮影した写真は弊社SNSで使用させて頂くことがございます。使用不可の方は担当営業にお申し付けください。</p></div></div>
+  </div>
+  <div class="sub" style="margin-top:4vmin;color:#FFEFC9">本日はご参加いただき、ありがとうございました 🌸</div>
+</section>`);
+
+/* ====== render & nav ====== */
+const stage=document.getElementById("stage");
+stage.innerHTML=S.join("");
+const slides=[...document.querySelectorAll(".slide")];
+let idx=0;
+const counter=document.getElementById("counter");
+const progress=document.getElementById("progress");
+
+function show(i){
+  idx=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,j)=>s.classList.toggle("active",j===idx));
+  counter.textContent=`${idx+1} / ${slides.length}`;
+  progress.style.width=((idx+1)/slides.length*100)+"%";
+  location.hash="s"+(idx+1);
+}
+document.getElementById("next").onclick=()=>show(idx+1);
+document.getElementById("prev").onclick=()=>show(idx-1);
+document.addEventListener("keydown",e=>{
+  if(e.target.closest("#menu"))return;
+  if(["ArrowRight","PageDown"," ","Enter"].includes(e.key)){e.preventDefault();show(idx+1);}
+  else if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();show(idx-1);}
+  else if(e.key==="Home"){show(0);}
+  else if(e.key==="End"){show(slides.length-1);}
+  else if(e.key.toLowerCase()==="f"){
+    if(document.fullscreenElement)document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(()=>{});
+  }
+  else if(e.key==="Escape"){menu.classList.remove("open");}
+});
+/* tap right/left half on touch devices (ignore timer & buttons) */
+stage.addEventListener("click",e=>{
+  if(e.target.closest(".timer"))return;
+  const x=e.clientX/innerWidth;
+  if(x>0.66)show(idx+1); else if(x<0.34)show(idx-1);
+});
+
+/* menu */
+const menu=document.getElementById("menu");
+const jump=document.getElementById("jumpList");
+slides.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.textContent=`${i+1}. ${s.dataset.title}`;
+  b.onclick=()=>{show(i);menu.classList.remove("open");};
+  jump.appendChild(b);
+});
+document.getElementById("menuBtn").onclick=()=>menu.classList.toggle("open");
+menu.addEventListener("click",e=>{if(e.target===menu)menu.classList.remove("open");});
+
+/* timers */
+const timers=new Map();
+document.querySelectorAll(".timer").forEach(t=>{
+  const ring=t.querySelector(".ring");
+  const tt=t.querySelector(".tt");
+  const C=163.4;
+  function reset(){clearInterval(timers.get(t));timers.delete(t);ring.style.strokeDashoffset=0;ring.style.stroke="#F59E2D";tt.textContent="⏱ 60秒";t.classList.remove("done");}
+  function start(){
+    let remain=60;tt.textContent="⏱ 60秒";
+    const id=setInterval(()=>{
+      remain--;
+      ring.style.strokeDashoffset=C*(1-remain/60);
+      tt.textContent="⏱ "+remain+"秒";
+      if(remain<=10)ring.style.stroke="#E8798C";
+      if(remain<=0){clearInterval(id);timers.delete(t);tt.textContent="⏰ 終了！";t.classList.add("done");}
+    },1000);
+    timers.set(t,id);
+  }
+  function toggle(e){e.stopPropagation();if(timers.has(t)||t.classList.contains("done"))reset();else start();}
+  t.addEventListener("click",toggle);
+  t.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle(e);}});
+});
+
+/* start (respect hash) */
+const m=location.hash.match(/^#s(\d+)$/);
+show(m?+m[1]-1:0);
+</script>
+</body>
+</html>
